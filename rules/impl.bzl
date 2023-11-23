@@ -107,8 +107,9 @@ def _run_android_lint(
     for check in enable_checks:
         args.add("--enable-check", check)
     for dep in _utils.list_or_depset_to_list(deps):
-        args.add("--classpath", dep)
-        inputs.append(dep)
+        if dep.extension == "aar" or dep.extension == "jar":
+            args.add("--classpath", dep)
+            inputs.append(dep)
     if android_lint_enable_check_dependencies:
         args.add("--enable-check-dependencies")
 
